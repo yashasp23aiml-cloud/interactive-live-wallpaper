@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+/* BACKGROUND (unchanged: full 16:9 image, no zoom/crop) */
+body {
+    background-image: url("./planetary-horizon-3840x2160-26343.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+}
+
+/* PHOTO STAGE */
+.photo-stage {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;      /* stage itself is click-through... */
+}
+
+/* PHOTO CARDS
+   Position, size, rotation, scale and opacity are all set by script.js
+   from one shared arc equation. Nothing is positioned with left/top. */
+.photo {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow:
+        0 8px 35px rgba(0, 0, 0, 0.55),
+        0 0 18px rgba(255, 180, 100, 0.10);
+
+    transform-origin: center center;
+    will-change: transform, opacity;
+
+    opacity: 0;                /* revealed by script.js once sizes are known */
+    pointer-events: auto;      /* ...but the photos themselves are interactive */
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+
+    transition:
+        filter 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.photo:hover,
+.photo.is-focused {
+    filter: brightness(1.12);
+    box-shadow:
+        0 12px 45px rgba(0, 0, 0, 0.65),
+        0 0 30px rgba(255, 190, 110, 0.35);
+}
+
+body.is-dragging,
+body.is-dragging .photo {
+    cursor: grabbing;
+}
